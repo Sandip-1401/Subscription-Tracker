@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import { limiter } from './middleware/rateLimit.middleware.js';
+import subscriptionRouter from './routes/subscription.routes.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(limiter);
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/subscriptions', subscriptionRouter);
 
 app.use(errorMiddlerware)
 

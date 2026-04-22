@@ -35,7 +35,7 @@ const subscriptionSchema = new mongoose.Schema({
    },
    status: {
       type: String,
-      emun: ['active', 'cancelled', 'expired'],
+      enum: ['active', 'cancelled', 'expired'],
       default: 'active'
    },
    startDate: {
@@ -63,7 +63,7 @@ const subscriptionSchema = new mongoose.Schema({
    }
 }, { timestamps: true })
 
-subscriptionSchema.pre('save', function (next) {
+subscriptionSchema.pre('save', function () {
    if (!this.renewalDate) {
       const renewalPeriods = {
          daily: 1,
@@ -78,7 +78,6 @@ subscriptionSchema.pre('save', function (next) {
    if (this.renewalDate < new Date()) {
       this.status = 'expired';
    }
-   next();
 });
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema);
