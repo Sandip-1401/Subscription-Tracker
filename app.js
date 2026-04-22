@@ -9,7 +9,7 @@ import userRouter from './routes/user.routes.js';
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/v1/auth', authRouter);
@@ -21,9 +21,9 @@ app.get('/', (req, res) => {
    res.send("Welcome to SubApp")
 })
 
-app.listen(PORT, async() => {
+app.listen(PORT, async () => {
    console.log(`Server is running on http://localhost:${PORT}`)
-   
+
    await connectToDatabase();
 })
 

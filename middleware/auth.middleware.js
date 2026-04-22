@@ -2,14 +2,14 @@ import { JWT_SECRET } from "../config/env.js";
 import User from "../models/user.models.js";
 import jwt from "jsonwebtoken";
 
-export const authMiddleware = async(req, res, next) => {
-   try{
+export const authMiddleware = async (req, res, next) => {
+   try {
       let token;
 
-      if(req.headers.authorization && req.headers.authorization.startsWith('Bearer ')){
+      if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
          token = req.headers.authorization.split(' ')[1];
       }
-      if(!token){
+      if (!token) {
          const error = new Error('Unauthorized');
          error.statusCode = 401;
          throw error;
@@ -17,7 +17,7 @@ export const authMiddleware = async(req, res, next) => {
       const decoded = jwt.verify(token, JWT_SECRET);
       const user = await User.findById(decoded.userId);
 
-      if(!user){
+      if (!user) {
          const error = new Error('Unauthorized');
          error.statusCode = 401;
          throw error;
@@ -25,7 +25,7 @@ export const authMiddleware = async(req, res, next) => {
       req.user = user;
       next();
 
-   }catch(error){
+   } catch (error) {
       next(error);
    }
 }

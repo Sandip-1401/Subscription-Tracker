@@ -7,29 +7,27 @@ import { JWT_SECRET, JWT_EXPIRES_IN } from "../config/env.js";
 export const signUp = async (req, res, next) => {
    const session = await mongoose.startSession();
    session.startTransaction();
-   try{
-      
+   try {
+
       const { name, email, password } = req.body;
 
-      // Check if user already exists
-      const existingUser = await User.findOne({email});
+      const existingUser = await User.findOne({ email });
 
-      if(existingUser){
+      if (existingUser) {
          const error = new Error('User already exists with this email');
          error.statusCode = 400;
          throw error;
       }
 
-      //Hash password
       const saltRounds = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      const user = await User.create([{name, email, password: hashedPassword}], { session });
+      const user = await User.create([{ name, email, password: hashedPassword }], { session });
 
       const token = jwt.sign(
-         {userId: user[0]._id},
+         { userId: user[0]._id },
          JWT_SECRET,
-         {expiresIn: JWT_EXPIRES_IN}
+         { expiresIn: JWT_EXPIRES_IN }
       );
 
       await session.commitTransaction();
@@ -52,28 +50,28 @@ export const signUp = async (req, res, next) => {
 }
 
 export const signIn = async (req, res, next) => {
-   try{
+   try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({email});
+      const user = await User.findOne({ email });
 
-      if(!user){
+      if (!user) {
          const error = new Error('Invalid email or password');
          error.statusCode = 401;
          throw error;
-      } 
+      }
       const isMatch = await bcrypt.compare(password, user.password);
 
-      if(!isMatch){
+      if (!isMatch) {
          const error = new Error('Invalid email or password');
          error.statusCode = 401;
          throw error;
       }
 
       const token = jwt.sign(
-         {userId: user._id},
+         { userId: user._id },
          JWT_SECRET,
-         {expiresIn: JWT_EXPIRES_IN}
+         { expiresIn: JWT_EXPIRES_IN }
       );
 
       res.status(200).json({
@@ -85,9 +83,9 @@ export const signIn = async (req, res, next) => {
          }
       });
 
-   }catch(error){
+   } catch (error) {
       next(error);
    }
 }
-   
-export const signOut = async (req, res, next) => {}
+
+export const signOut = async (req, res, next) => { }

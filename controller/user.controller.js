@@ -1,21 +1,21 @@
 import User from "../models/user.models.js";
 
-export const getUsers = async(req, res, next) => {
-   try{
+export const getUsers = async (req, res, next) => {
+   try {
       const users = await User.find();
       res.status(200).json({
          success: true,
          data: users
       });
-   }catch(error){
+   } catch (error) {
       next(error);
    }
 }
 
-export const getUserById = async(req, res, next) => {
-   try{
+export const getUserById = async (req, res, next) => {
+   try {
       const user = await User.findById(req.params.id).select('-password');
-      if(!user){
+      if (!user) {
          const error = new Error('User not found');
          error.statusCode = 404;
          throw error;
@@ -24,7 +24,7 @@ export const getUserById = async(req, res, next) => {
          success: true,
          data: user
       });
-   }catch(error){
+   } catch (error) {
       next(error);
-   }  
+   }
 }
