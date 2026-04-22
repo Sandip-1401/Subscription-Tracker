@@ -19,8 +19,9 @@ const subscriptionSchema = new mongoose.Schema({
       default: 'JPY'
    },
    frequency: {
-      tyep: String,
+      type: String,
       enum: ['daily', 'weekly', 'monthly', 'yearly'],
+      required: true
    },
    category: {
       type: String,
