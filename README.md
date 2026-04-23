@@ -1,3 +1,3 @@
 # Subscription-Tracker
 
-Live linke https://enable-crook-applaud.ngrok-free.dev/
+Live link https://subscription-tracker-k20b.onrender.com/
