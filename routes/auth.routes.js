@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { signUp, signIn, signOut } from '../controller/auth.controller.js';
+import { signUp, signIn, signOut } from "../controller/auth.controller.js";
 import { authLimiter } from "../middleware/authLimiter.middleware.js";
 
 const authRouter = Router();
